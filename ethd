@@ -1423,6 +1423,16 @@ version() {
     echo ""
 }
 
+attach() {
+    var="COMPOSE_FILE"
+    value=$(sed -n -e "s/^${var}=\(.*\)/\1/p" ".env" || true)
+    if [[ "${value}" =~ "geth.yml" ]]; then
+        cmd exec execution geth attach http://127.0.0.1:8545
+    else
+        echo "attach is unsupported for your current EL client"
+    fi
+}
+
 printhelp() {
     me=$(basename "${BASH_SOURCE}")
     echo "usage: ${me} [help|-h|--help] <subcommand>"
